@@ -1,0 +1,25 @@
+# --- Binarios y Objetos (Lo más importante) ---
+*.o
+*.obj
+*.exe
+*.out
+
+# --- Librerías (Estáticas y Dinámicas) ---
+*.lib
+*.a
+*.dll
+*.so
+
+# --- Archivos de Debug y Temporales ---
+*.dSYM/
+*.su
+*.pdb
+
+# --- Configuración de VS Code ---
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# --- Historial Local ---
+.history/
