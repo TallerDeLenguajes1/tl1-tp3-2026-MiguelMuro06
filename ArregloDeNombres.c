@@ -14,6 +14,14 @@ void MostrarPersonas(char *v[], int cantidad)
     }
 }
 
+void  BuscarNombre( char* v[], int num){
+    if (num >=0 && num<5){
+        printf("\nEl nombre de la posicion %d es: %s",num, v[num]);
+    }else{
+        printf("\nNo se encontró el valor buscado");
+    }
+}
+
 int main()
 {
     char *V[Cantidad]; //vector de 5 punteros
@@ -34,8 +42,22 @@ int main()
         */
         strcpy(V[i], buff); // copiamos lo que tiene buffer a la memoria recien reservada
     }
+
     MostrarPersonas(V, Cantidad);
 
+    int id;
+    char continuar = 's';
+while (continuar == 's' || continuar == 'S') {
+        printf("\n\nIngrese el ID (indice 0-4) para buscar un nombre: ");
+        scanf("%d", &id);
+        
+        // Llamamos a la función de esta rama
+        BuscarNombre(V, id);
+
+        printf("\n\n¿Quiere buscar otro ID? (s/n): ");
+        getchar(); // Limpia el buffer del Enter anterior
+        scanf("%c", &continuar);
+    }
     free(buff); //libero o limpiamos el buff auxiliar que ya no usare
 
     //libero los 5 espacio reservado para los nombres
