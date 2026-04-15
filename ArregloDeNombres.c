@@ -14,7 +14,15 @@ void MostrarPersonas(char *v[], int cantidad)
     }
 }
 
-char* BuscarNombre ( char * v[], char *buff, int cant){
+void  BuscarNombrePorId( char* v[], int num){
+    if (num >=0 && num<5){
+        printf("\nEl nombre de la posicion %d es: %s",num, v[num]);
+    }else{
+        printf("\nNo se encontró el valor buscado");
+    }
+}
+
+char* BuscarNombrePorPalabra( char * v[], char *buff, int cant){
 
     /*esta parte esta bien pero estoy usando mas memoria de la que debia, puedo usar buff y trabajar traquilamente.
     ademas debo liberar la memoria despues del vector y no se podria ya que al usar el return se sale de la funcion
@@ -55,12 +63,30 @@ int main()
         */
         strcpy(V[i], buff); // copiamos lo que tiene buffer a la memoria recien reservada
     }
+
     MostrarPersonas(V, Cantidad);
+
+    int id;
+    char continuar = 's';
+        while (continuar == 's' || continuar == 'S') {
+        printf("\n\nIngrese el ID (0-4) para buscar un nombre: ");
+        scanf("%d", &id);
+        
+        // Llamamos a la función de esta rama
+        BuscarNombrePorId(V, id);
+
+        printf("\n\nQuiere buscar otro ID aprete 's' o 'S' para continuar y cualquier otra letra si no quiere: ");
+        getchar(); // Limpia el buffer del Enter anterior
+        scanf("%c", &continuar);
+    }
+    
+    // Limpiamos el buffer del teclado antes de usar gets
+    fflush(stdin);
 
     printf("\nIngrese el nombre o al menos una silaba del nombre que quiere ver si se encuentra en el vector: ");
     gets(buff);
 
-    char* mostrar =BuscarNombre(V,buff, Cantidad);
+    char* mostrar =BuscarNombrePorPalabra(V,buff,Cantidad);
     if (mostrar != NULL)
     {
         printf("\nSe encontro una coincidencia y este es el nombre: %s", mostrar);
