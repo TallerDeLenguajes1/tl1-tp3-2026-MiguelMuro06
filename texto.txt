@@ -1,0 +1,20 @@
+2. El Buffer es un "espacio de tránsito" Como sos técnico, pensalo así: 
+--el buffer es como una zona de descarga en una fábrica.
+--Llega el camión (el usuario escribe).
+--Descarga en la zona temporal (el buff).
+--Vos medís la mercadería.
+--Construís un estante a medida en el depósito principal (la memoria dinámica con malloc).
+--Movés la mercadería al estante (strcpy) y liberás la zona de descarga para el próximo camión.
+
+Nombre guardado,Lo que buscás (buff),¿Lo encuentra?,Razón
+Miguel,"""uel""",✅ SÍ,Está al final del nombre.
+Miguel,"""ig""",✅ SÍ,Está en el medio.
+Miguel,"""me""",❌ NO,"Las letras están, pero no juntas ni en ese orden."
+Ulises,"""lis""",✅ SÍ,"Es una ""sílaba"" interna."
+Ulises,"""us""",❌ NO,"Falta la ""l"" y la ""i"" en el medio."
+
+3. ¿Qué te devuelve exactamente?
+Es importante recordar que strstr no te devuelve un "Sí" o un "No" (un booleano), 
+sino que te devuelve la dirección de memoria donde empieza la coincidencia.
+Si buscás "uel" en "Miguel", strstr te devuelve un puntero a la letra 'u'. Como en tu if preguntás if (strstr(...) != NULL), 
+cualquier dirección que encuentre cuenta como "Verdadero".

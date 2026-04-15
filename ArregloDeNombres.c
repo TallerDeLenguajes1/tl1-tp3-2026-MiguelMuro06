@@ -14,6 +14,27 @@ void MostrarPersonas(char *v[], int cantidad)
     }
 }
 
+char* BuscarNombre ( char * v[], char *buff, int cant){
+
+    /*esta parte esta bien pero estoy usando mas memoria de la que debia, puedo usar buff y trabajar traquilamente.
+    ademas debo liberar la memoria despues del vector y no se podria ya que al usar el return se sale de la funcion
+    Tambien por el return no me dara todas las palabras que empiezan con esa silaba a la primera coincidencia me devuelve el nombre*/
+
+    /*char * argumento;
+    argumento = (char*)malloc((strlen(buff)+1)*sizeof(char));
+    strcpy(argumento,buff);*/ 
+
+    for (int i = 0; i < cant; i++)
+    {
+        if (strstr(v[i],buff) != NULL)
+        {
+            return v[i];
+        } 
+    }
+    return NULL;
+
+}
+
 int main()
 {
     char *V[Cantidad]; //vector de 5 punteros
@@ -21,7 +42,7 @@ int main()
     buff = (char *)malloc(100 * sizeof(char)); //reservo 100 bytes de memoria temporal por las dudas pero con 50 hubiera bastado 
 
     printf("----Ingrese de nombres---");
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < Cantidad ; i++)
     {
         printf("\n Ingrese el nombre [%d]: ", i + 1);
         gets(buff);
@@ -36,6 +57,18 @@ int main()
     }
     MostrarPersonas(V, Cantidad);
 
+    printf("\nIngrese el nombre o al menos una silaba del nombre que quiere ver si se encuentra en el vector: ");
+    gets(buff);
+
+    char* mostrar =BuscarNombre(V,buff, Cantidad);
+    if (mostrar != NULL)
+    {
+        printf("\nSe encontro una coincidencia y este es el nombre: %s", mostrar);
+    }
+    else{
+        printf("\n no se encontro coincidencia alguna");
+    }
+    
     free(buff); //libero o limpiamos el buff auxiliar que ya no usare
 
     //libero los 5 espacio reservado para los nombres
@@ -46,16 +79,3 @@ int main()
 
     return 0;
 }
-
-/*char buff[50];
-    scanf("%s", buff);
-    int tamanioDeCadenaIngresadaPorUsuario = strlen(buff); // no considera el caracter nulo por lo tanto devuelve 10
-
-    char * Cadena;
-    Cadena = (char *) malloc (sizeof(char) * tamanioDeCadenaIngresadaPorUsuario + 1); // Reserva de memoria para la cadena pero aumento 1 byte para el carcter nulo
-
-    strcpy(Cadena, buff);
-    printf("%s",Cadena);
-
-    getchar();
-      */
