@@ -47,17 +47,18 @@ int main()
 
     int id;
     char continuar = 's';
-while (continuar == 's' || continuar == 'S') {
-        printf("\n\nIngrese el ID (indice 0-4) para buscar un nombre: ");
+        while (continuar == 's' || continuar == 'S') {
+        printf("\n\nIngrese el ID (0-4) para buscar un nombre: ");
         scanf("%d", &id);
         
         // Llamamos a la función de esta rama
         BuscarNombre(V, id);
 
-        printf("\n\n¿Quiere buscar otro ID? (s/n): ");
+        printf("\n\nQuiere buscar otro ID aprete 's' o 'S' para continuar y cualquier otra letra si no quiere: ");
         getchar(); // Limpia el buffer del Enter anterior
         scanf("%c", &continuar);
     }
+
     free(buff); //libero o limpiamos el buff auxiliar que ya no usare
 
     //libero los 5 espacio reservado para los nombres
