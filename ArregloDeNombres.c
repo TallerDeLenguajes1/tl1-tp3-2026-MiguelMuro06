@@ -10,19 +10,24 @@ void MostrarPersonas(char *v[], int cantidad)
     printf("\n----Nombre de las personas----");
     for (int i = 0; i < cantidad; i++)
     {
-        printf("\n El nombre del [%d] es: %s", i + 1, v[i]); //muestro cada uno de los nombres  por el puntero v[i] ya que va a su direccion de memoria
+        printf("\n El nombre del [%d] es: %s", i + 1, v[i]); // muestro cada uno de los nombres  por el puntero v[i] ya que va a su direccion de memoria
     }
 }
 
-void  BuscarNombrePorId( char* v[], int num){
-    if (num >=0 && num<5){
-        printf("\nEl nombre de la posicion %d es: %s",num, v[num]);
-    }else{
+void BuscarNombrePorId(char *v[], int num)
+{
+    if (num >= 0 && num < 5)
+    {
+        printf("\nEl nombre de la posicion %d es: %s", num, v[num]);
+    }
+    else
+    {
         printf("\nNo se encontró el valor buscado");
     }
 }
 
-char* BuscarNombrePorPalabra( char * v[], char *buff, int cant){
+char *BuscarNombrePorPalabra(char *v[], char *buff, int cant)
+{
 
     /*esta parte esta bien pero estoy usando mas memoria de la que debia, puedo usar buff y trabajar traquilamente.
     ademas debo liberar la memoria despues del vector y no se podria ya que al usar el return se sale de la funcion
@@ -30,27 +35,26 @@ char* BuscarNombrePorPalabra( char * v[], char *buff, int cant){
 
     /*char * argumento;
     argumento = (char*)malloc((strlen(buff)+1)*sizeof(char));
-    strcpy(argumento,buff);*/ 
+    strcpy(argumento,buff);*/
 
     for (int i = 0; i < cant; i++)
     {
-        if (strstr(v[i],buff) != NULL)
+        if (strstr(v[i], buff) != NULL)
         {
             return v[i];
-        } 
+        }
     }
     return NULL;
-
 }
 
 int main()
 {
-    char *V[Cantidad]; //vector de 5 punteros
-    char *buff; //puntero auxiliar que me servira para guardar los nombres
-    buff = (char *)malloc(100 * sizeof(char)); //reservo 100 bytes de memoria temporal por las dudas pero con 50 hubiera bastado 
+    char *V[Cantidad];                         // vector de 5 punteros
+    char *buff;                                // puntero auxiliar que me servira para guardar los nombres
+    buff = (char *)malloc(100 * sizeof(char)); // reservo 100 bytes de memoria temporal por las dudas pero con 50 hubiera bastado
 
     printf("----Ingrese de nombres---");
-    for (int i = 0; i < Cantidad ; i++)
+    for (int i = 0; i < Cantidad; i++)
     {
         printf("\n Ingrese el nombre [%d]: ", i + 1);
         gets(buff);
@@ -66,41 +70,71 @@ int main()
 
     MostrarPersonas(V, Cantidad);
 
-    int id;
-    char continuar = 's';
-        while (continuar == 's' || continuar == 'S') {
-        printf("\n\nIngrese el ID (0-4) para buscar un nombre: ");
-        scanf("%d", &id);
-        
-        // Llamamos a la función de esta rama
-        BuscarNombrePorId(V, id);
-
-        printf("\n\nQuiere buscar otro ID aprete 's' o 'S' para continuar y cualquier otra letra si no quiere: ");
-        getchar(); // Limpia el buffer del Enter anterior
-        scanf("%c", &continuar);
-    }
-    
-    // Limpiamos el buffer del teclado antes de usar gets
-    fflush(stdin);
-
-    printf("\nIngrese el nombre o al menos una silaba del nombre que quiere ver si se encuentra en el vector: ");
-    gets(buff);
-
-    char* mostrar =BuscarNombrePorPalabra(V,buff,Cantidad);
-    if (mostrar != NULL)
+    int num = 0;
+    while (num == 0)
     {
-        printf("\nSe encontro una coincidencia y este es el nombre: %s", mostrar);
-    }
-    else{
-        printf("\n no se encontro coincidencia alguna");
-    }
-    
-    free(buff); //libero o limpiamos el buff auxiliar que ya no usare
+        int opcion, x;
+        printf("\n\n Quiere buscar un nombre por: \n 1. Si quiere por ID ingrese (1) \n 2. Si quiere por una silaba o algo relacionado con la palabra elija (2) \n 3.Si no quiere elegir nada presione cualquier numero \n\nIngresar el numero de la opcion que quiere: ");
+        scanf("%d", &opcion);
 
-    //libero los 5 espacio reservado para los nombres
+        switch (opcion)
+        {
+        case 1:
+            int id;
+            char continuar = 's';
+            while (continuar == 's' || continuar == 'S')
+            {
+                printf("\n\nIngrese el ID (0-4) para buscar un nombre: ");
+                scanf("%d", &id);
+
+                // Llamamos a la función de esta rama
+                BuscarNombrePorId(V, id);
+
+                printf("\n\nQuiere buscar otro ID aprete 's' o 'S' para continuar y cualquier otra letra si no quiere: ");
+                getchar(); // Limpia el buffer del Enter anterior
+                scanf("%c", &continuar);
+            }
+
+            // Limpiamos el buffer del teclado antes de usar gets
+            fflush(stdin);
+            printf("\n\nQuiere seguir buscando un nombre por id o por silaba, oprima \n-- si quiere oprima (1) \n --Y cualquier otro numero si no quiere \n elija una opcion: ");
+            scanf("%d", &x);
+
+            break;
+        case 2:
+            fflush(stdin);
+            printf("\n\nIngrese el nombre o al menos una silaba del nombre que quiere ver si se encuentra en el vector: ");
+            gets(buff);
+
+            char *mostrar = BuscarNombrePorPalabra(V, buff, Cantidad);
+            if (mostrar != NULL)
+            {
+                printf("\n\nSe encontro una coincidencia y este es el nombre: %s", mostrar);
+            }
+            else
+            {
+                printf("\n\n no se encontro coincidencia alguna");
+            }
+
+            printf("\n\nQuiere seguir buscando un nombre por id o por silaba, oprima \n-- si quiere oprima (1) \n --Y cualquier otro numero si no quiere \n elija una opcion: ");
+            scanf("%d", &x);
+
+            break;
+        default:
+            num = 1;
+            break;
+        }
+        if (x != 1)
+        {
+            num = 1;
+        }
+    }
+    free(buff); // libero o limpiamos el buff auxiliar que ya no usare
+
+    // libero los 5 espacio reservado para los nombres
     for (int i = 0; i < Cantidad; i++)
     {
-        free(V[i]);  
+        free(V[i]);
     }
 
     return 0;
