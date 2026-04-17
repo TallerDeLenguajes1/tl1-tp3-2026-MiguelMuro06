@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h> //Libreria necesaria para usar malloc y free
 #include <string.h> //Libreria necesaria para usar en este punto strlen, strcpy
-#define Cantidad 5  // contante para los nombre, uso esto por si despues dice 6 o mas y el codigo seguiria andando bien
 
 // funcion de mostrar las personas
 
@@ -14,9 +13,9 @@ void MostrarPersonas(char *v[], int cantidad)
     }
 }
 
-void BuscarNombrePorId(char *v[], int num)
+void BuscarNombrePorId(char *v[], int num, int limite)
 {
-    if (num >= 0 && num < 5)
+    if (num >= 0 && num < limite)
     {
         printf("\nEl nombre de la posicion %d es: %s", num, v[num]);
     }
@@ -49,11 +48,18 @@ char *BuscarNombrePorPalabra(char *v[], char *buff, int cant)
 
 int main()
 {
-    char *V[Cantidad];                         // vector de 5 punteros
+    int Cantidad;
+    char **V;       // Doble asterisco: es un puntero que apuntará a una lista de punteros.
     char *buff;                                // puntero auxiliar que me servira para guardar los nombres
     buff = (char *)malloc(100 * sizeof(char)); // reservo 100 bytes de memoria temporal por las dudas pero con 50 hubiera bastado
+    
+    printf("---Ingrese la cantidad de nombre que desea poner: ");
+    scanf("%d",&Cantidad);
+    getchar();
 
-    printf("----Ingrese de nombres---");
+    V = (char**)malloc(sizeof(char*) * Cantidad);  
+
+    printf("\n----Ingrese de nombres---");
     for (int i = 0; i < Cantidad; i++)
     {
         printf("\n Ingrese el nombre [%d]: ", i + 1);
@@ -84,11 +90,11 @@ int main()
             char continuar = 's';
             while (continuar == 's' || continuar == 'S')
             {
-                printf("\n\nIngrese el ID (0-4) para buscar un nombre: ");
+                printf("\n\nIngrese el ID (0-%d) para buscar un nombre: ", Cantidad-1);
                 scanf("%d", &id);
 
                 // Llamamos a la función de esta rama
-                BuscarNombrePorId(V, id);
+                BuscarNombrePorId(V, id, Cantidad);
 
                 printf("\n\nQuiere buscar otro ID aprete 's' o 'S' para continuar y cualquier otra letra si no quiere: ");
                 getchar(); // Limpia el buffer del Enter anterior
@@ -134,8 +140,9 @@ int main()
     // libero los 5 espacio reservado para los nombres
     for (int i = 0; i < Cantidad; i++)
     {
-        free(V[i]);
+        free(V[i]); //libera cada nombre
     }
+    free(V); //libero el vector de punteros
 
     return 0;
 }
